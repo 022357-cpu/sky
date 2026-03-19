@@ -43,4 +43,33 @@
         /* 5. 개별 연도 블록 디자인 */
         .year-block {
             background-color: white; 
-            color: #333
+            color: #333333;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 30px 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+            cursor: pointer; 
+            transition: transform 0.2s; 
+        }
+
+        /* 6. 블록 마우스 오버 효과 */
+        .year-block:hover {
+            transform: translateY(-10px); 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="category-badge">🌍 국제 정세</div>
+
+    <h1>여기에서 나의 눈을 키우자?!</h1>
+
+    <div class="block-container">
+        <div class="year-block">2023년</div>
+        <div class="year-block">2024년</div>
+        <div class="year-block">2025년</div>
+    </div>
+
+</body>
+</html>
