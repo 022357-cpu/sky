@@ -66,22 +66,68 @@
         .year-block:hover {
             transform: translateY(-10px); 
         }
+    </style><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>국제 정세 분석</title>
+    <style>
+        /* 웹사이트의 기본 디자인(CSS)을 설정하는 부분이야 */
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            text-align: center;
+            background-color: #fafafa;
+            color: #333;
+            margin: 0;
+            padding: 50px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+        }
+
+        /* 연도별 블록들을 가로로 나란히 배치하기 위한 레이아웃 설정 */
+        .year-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        /* 각 연도 블록의 디자인 */
+        .year-block {
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 40px 60px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* 마우스를 올렸을 때의 시각적 효과 */
+        .year-block:hover {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+            transform: translateY(-5px);
+        }
     </style>
 </head>
 <body>
 
-    <div class="category-badge">       국제 정세      </div>
+    <!-- 웹사이트의 실제 내용이 들어가는 부분이야 -->
+    <h1>글로벌 동향 및 국제 정세 분석</h1>
+    <p>연도별 주요 국제 이슈와 데이터를 확인하세요.</p>
 
-    <h1>여기에서 나의 눈을 키우자?!</h1>
-
-    <div class="block-container">
-        <div class="year-block">2023년</div>
-        <div class="year-block">2024년</div>
-        <div class="year-block">2025년</div>
-    </div>
-
-</body>
-</html>
+    <!-- 연도별 메뉴 블록 -->
+    <div class="year-container">
+        <div class="year-block">2023</div>
+        <div class="year-block">2024</div>
+        <div class="year-block">2025</div>
     </div>
 
 </body>
