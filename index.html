@@ -1,133 +1,210 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>나의 첫 웹사이트</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
-
-    <style>
-        /* 2. 전체 배경과 기본 폰트 설정 (기본은 깔끔하게 유지) */
-        body {
-            background-color: #f0f8ff;
-            text-align: center;
-            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
-            padding-top: 80px; 
-        }
-
-        /* 3. '국제 정세' 뱃지 디자인 - 글자체 변경! */
-        .category-badge {
-            display: inline-block;
-            background-color: #3498db;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            
-            /* [날림체 적용 부분] */
-            font-family: 'Nanum Brush Script', cursive; /* 날림체(나눔붓친구) 적용 */
-            font-size: 28px; /* 날림체는 좀 더 크게 해야 잘 보여요 */
-            font-weight: normal; /* 붓글씨는 자체 굵기가 있어 보통으로 설정 */
-            
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        /* 4. 메인 제목 꾸미기 */
-        h1 {
-            color: #2c3e50;
-            font-size: 40px;
-            margin-top: 0;
-            margin-bottom: 50px; 
-            font-weight: bold; /* 제목은 원래대로 두껍게 */
-        }
-
-        /* 5. 블록들을 담는 큰 상자 */
-        .block-container {
-            display: flex; 
-            justify-content: center; 
-            gap: 20px; 
-        }
-
-        /* 6. 개별 연도 블록 디자인 */
-        .year-block {
-            background-color: white; 
-            color: #333333;
-            font-size: 28px;
-            font-weight: bold;
-            padding: 30px 40px; 
-            border-radius: 15px; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-            cursor: pointer; 
-            transition: transform 0.2s; 
-        }
-
-        /* 7. 블록 마우스 오버 효과 */
-        .year-block:hover {
-            transform: translateY(-10px); 
-        }
-    </style><!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>국제 정세 분석</title>
+    <title>추천 피드</title>
     <style>
-        /* 웹사이트의 기본 디자인(CSS)을 설정하는 부분이야 */
-        body {
-            font-family: 'Malgun Gothic', sans-serif;
-            text-align: center;
-            background-color: #fafafa;
-            color: #333;
+        /* 기본 초기화 */
+        * {
             margin: 0;
-            padding: 50px;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        /* 모바일 뷰어 형태의 중앙 컨테이너 */
+        .mobile-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            min-height: 100vh;
+        }
+
+        /* 상단 네비게이션 탭 (가로 스크롤) */
+        .nav-tabs {
+            display: flex;
+            padding: 15px 20px;
+            gap: 20px;
+            border-bottom: 1px solid #ebeeef;
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none; /* IE, Edge 스크롤 숨김 */
+            scrollbar-width: none; /* Firefox 스크롤 숨김 */
+            position: sticky;
+            top: 0;
+            background-color: #fff;
+            z-index: 10;
+        }
+        .nav-tabs::-webkit-scrollbar {
+            display: none; /* Chrome, Safari 스크롤 숨김 */
+        }
+        .nav-tabs a {
+            text-decoration: none;
+            color: #888;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .nav-tabs a.active {
+            color: #000;
+            font-weight: 700;
+        }
+
+        /* 피드 컨테이너 */
+        .feed-container {
+            padding: 0;
+            background-color: #f2f2f2; /* 카드 사이 회색 배경 */
+        }
+
+        /* 개별 피드 카드 */
+        .feed-card {
+            background-color: #fff;
+            margin-bottom: 12px; /* 카드 간격 */
+            padding-bottom: 20px;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 썸네일 이미지 (16:9 비율) */
+        .thumbnail {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: #e2e2e2;
+            overflow: hidden;
+            position: relative;
+        }
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 피드 텍스트 영역 */
+        .feed-content {
+            padding: 16px 20px 0;
         }
         
-        h1 {
-            color: #2c3e50;
+        .category-tag {
+            font-size: 12px;
+            color: #00c73c; /* 네이버 스타일 그린 포인트 */
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: inline-block;
         }
 
-        /* 연도별 블록들을 가로로 나란히 배치하기 위한 레이아웃 설정 */
-        .year-container {
+        .title {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            /* 2줄 이상 말줄임 */
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            /* 2줄 이상 말줄임 */
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .author-info {
             display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 50px;
+            align-items: center;
+            gap: 8px;
         }
-
-        /* 각 연도 블록의 디자인 */
-        .year-block {
-            background-color: #ffffff;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 40px 60px;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        .author-profile {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #ddd;
         }
-
-        /* 마우스를 올렸을 때의 시각적 효과 */
-        .year-block:hover {
-            background-color: #3498db;
-            color: white;
-            border-color: #3498db;
-            transform: translateY(-5px);
+        .author-name {
+            font-size: 13px;
+            color: #777;
         }
     </style>
 </head>
 <body>
 
-    <!-- 웹사이트의 실제 내용이 들어가는 부분이야 -->
-    <h1>글로벌 동향 및 국제 정세 분석</h1>
-    <p>연도별 주요 국제 이슈와 데이터를 확인하세요.</p>
+    <div class="mobile-container">
+        <!-- 상단 네비게이션 -->
+        <nav class="nav-tabs">
+            <a href="#" class="active">FOR YOU</a>
+            <a href="#">국제 정세</a>
+            <a href="#">과학 탐구</a>
+            <a href="#">인문학</a>
+            <a href="#">웹 개발</a>
+        </nav>
 
-    <!-- 연도별 메뉴 블록 -->
-    <div class="year-container">
-        <div class="year-block">2023</div>
-        <div class="year-block">2024</div>
-        <div class="year-block">2025</div>
+        <!-- 피드 목록 -->
+        <main class="feed-container">
+            
+            <!-- 카드 1 -->
+            <a href="#" class="feed-card">
+                <div class="thumbnail">
+                    <!-- 이미지 주소를 src 안에 넣으세요 -->
+                    <img src="https://via.placeholder.com/600x337/3498db/ffffff?text=International+Relations" alt="국제 정세">
+                </div>
+                <div class="feed-content">
+                    <span class="category-tag">국제 정세</span>
+                    <h2 class="title">2024 글로벌 정세 분석: 새로운 경제 블록화의 이해</h2>
+                    <p class="description">핵심 자원의 무기화와 주요국 간의 패권 경쟁이 심화되는 가운데, 변화하는 공급망 재편의 흐름을 분석합니다.</p>
+                    <div class="author-info">
+                        <div class="author-profile"></div>
+                        <span class="author-name">Ji-eun</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 카드 2 -->
+            <a href="#" class="feed-card">
+                <div class="thumbnail">
+                    <img src="https://via.placeholder.com/600x337/2ecc71/ffffff?text=Perovskite+Solar+Cells" alt="페로브스카이트">
+                </div>
+                <div class="feed-content">
+                    <span class="category-tag">과학 탐구</span>
+                    <h2 class="title">차세대 에너지 하베스팅: 페로브스카이트 태양전지의 잠재력</h2>
+                    <p class="description">스마트 그리드 구축을 위한 핵심 기술이자 높은 효율을 자랑하는 페로브스카이트 태양전지의 상용화 전망과 원리를 알아봅니다.</p>
+                    <div class="author-info">
+                        <div class="author-profile"></div>
+                        <span class="author-name">Sarah</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 카드 3 -->
+            <a href="#" class="feed-card">
+                <div class="thumbnail">
+                    <img src="https://via.placeholder.com/600x337/9b59b6/ffffff?text=AI+and+Society" alt="인공지능">
+                </div>
+                <div class="feed-content">
+                    <span class="category-tag">인문학</span>
+                    <h2 class="title">기술 독점과 정보 민주화: 거대 테크 기업의 AI 딜레마</h2>
+                    <p class="description">인공지능 발전이 야기하는 디지털 격차 문제와 거대 기업들의 개발 동기를 사회 구조적 관점에서 살펴봅니다.</p>
+                    <div class="author-info">
+                        <div class="author-profile"></div>
+                        <span class="author-name">Ji-eun</span>
+                    </div>
+                </div>
+            </a>
+
+        </main>
     </div>
 
 </body>
