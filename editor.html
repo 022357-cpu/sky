@@ -122,7 +122,22 @@
 <body>
 
     <header class="editor-header">
+        
         <input type="text" class="title-input" placeholder="제목 없는 문서">
+        
+        <select id="note-category" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+            <option value="category-1">학교 수행(첫 번째 카드)</option>
+            <option value="category-2">학교 수업(두 번째 카드)</option>
+            <option value="category-3">학원 수업(세 번째 카드)</option>
+            <option value="category-4">학원 시험(네 번째 카드)</option>
+        </select>
+
+        <div class="action-buttons">
+            <button onclick="history.back()">취소 및 뒤로가기</button>
+            <button class="btn-save" onclick="saveNote()">저장</button>
+        </div>
+        
+    </header>
         <div class="action-buttons">
             <button onclick="history.back()">취소 및 뒤로가기</button>
             <button class="btn-save" onclick="saveNote()">저장</button>
@@ -143,35 +158,33 @@
         <div class="editor-paper" contenteditable="true" placeholder="오늘 학습한 내용을 자유롭게 정리해 보세요..."></div>
     </main>
 <script>
-    function saveNote() {
-        // 1. 입력된 제목과 본문 내용 가져오기
-        const title = document.querySelector('.title-input').value;
-        const content = document.querySelector('.editor-paper').innerHTML;
+    // 기존 코드에서 수정된 부분
+function saveNote() {
+    const title = document.querySelector('.title-input').value;
+    const content = document.querySelector('.editor-paper').innerHTML;
+    // ✨ 선택한 카테고리 값 가져오기 ✨
+    const category = document.getElementById('note-category').value; 
 
-        // 2. 제목이 비어있는지 확인
-        if (!title.trim()) {
-            alert('제목을 입력해주세요!');
-            return;
-        }
-
-        // 3. 기존에 저장된 노트 목록 불러오기 (없으면 빈 배열)
-        let savedNotes = JSON.parse(localStorage.getItem('myNotes')) || [];
-
-        // 4. 새로 작성한 노트 데이터 만들기
-        const newNote = {
-            id: Date.now(), // 고유 번호
-            title: title,
-            content: content
-        };
-
-        // 5. 목록에 새 노트 추가하고 다시 Local Storage에 저장하기
-        savedNotes.push(newNote);
-        localStorage.setItem('myNotes', JSON.stringify(savedNotes));
-
-        // 6. 완료 알림 후 메인 페이지(index.html)로 이동하기
-        alert('성공적으로 저장되었습니다!');
-        window.location.href = 'index.html'; // 메인 페이지 파일명이 다르면 수정하세요
+    if (!title.trim()) {
+        alert('제목을 입력해주세요!');
+        return;
     }
+
+    let savedNotes = JSON.parse(localStorage.getItem('myNotes')) || [];
+
+    const newNote = {
+        id: Date.now(),
+        title: title,
+        content: content,
+        category: category // ✨ 꼬리표(카테고리) 달아서 저장 ✨
+    };
+
+    savedNotes.push(newNote);
+    localStorage.setItem('myNotes', JSON.stringify(savedNotes));
+
+    alert('성공적으로 저장되었습니다!');
+    window.location.href = 'index.html';
+}
 </script>
 </body>
 </html>
