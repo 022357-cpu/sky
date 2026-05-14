@@ -182,6 +182,13 @@
         @media (max-width: 600px) {
             .news-grid { grid-template-columns: 1fr; }
         }
+        /* --- 탭(Tab) 화면 전환용 CSS --- */
+        .tab-content {
+            display: none; /* 기본적으로 모든 탭 숨기기 */
+        }
+        .tab-content.active {
+            display: block; /* active 클래스가 붙은 탭만 보이기 */
+        }
     </style>
 </head>
 <body>
@@ -194,116 +201,147 @@
 
     <nav class="sub-nav">
         <div class="nav-inner">
-            <a href="#" class="active">과목별</a>
-            <a href="#">과학</a>
-            <a href="#">국어</a>
-            <a href="#">영어</a>
-            <a href="#">수학</a>
-            <a href="#">사회</a>
-            <a href="#">한국사</a>
-            <a href="#">정보</a>
-            <a href="#">중국어</a>
+            <a href="#" class="tab-link active" onclick="changeTab(event, 'tab-press')">과목별</a>
+            <a href="#" class="tab-link" onclick="changeTab(event, 'tab-math')">수학</a>
+            <a href="#" class="tab-link" onclick="changeTab(event, 'tab-english')">영어</a>
+            <a href="#" class="tab-link" onclick="changeTab(event, 'tab-korean')">국어</a>
+            <a href="#" class="tab-link" onclick="changeTab(event, 'tab-science')">과학</a>
+            <a href="#" class="tab-link" onclick="changeTab(event, 'tab-economy')">사회</a>
+            <a href="#" class="tab-link" onclick="changeTab(event, 'tab-korean-history')">한국사</a>
+            <a href="#" class="tab-link" onclick="changeTab(event, 'tab-chinese')">중국어</a>
+            <a href="#" class="tab-link" onclick="changeTab(event, 'tab-computer')">정보</a>
         </div>
     </nav>
 
     <main class="main-container">
-        
+    
+    <div id="tab-press" class="tab-content active">
         <div class="news-grid">
-            
             <article class="news-card">
                 <div class="card-header">
-                    <div class="press-info">
-                        <div class="press-icon"></div>
-                        <span>학교 수행</span>
-                    </div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 페이지</a>
+                    <div class="press-info"><span>최근 학습 현황</span></div>
+                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
                 </div>
-                
-                <a href="#" class="main-article">
-                    <div class="thumbnail">
-                        <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=300&auto=format&fit=crop" alt="경제 뉴스">
-                    </div>
-                    <h3 class="title">'단 19포인트' 8천피 목전… 연내 코스피 1만5000 가나</h3>
-                </a>
-
-                <ul class="sub-article-list" id = "category-1">
-                    <li><a href="#">[속보] 삼성전자, '파업 앞' 비상운영 체제 돌입… 직원들 촉각</a></li>
-                    <li><a href="#">"연 2% 예금으론 답 없다"… 급증하는 '포모 투자'에 빚투 경고</a></li>
-                    <li><a href="#">"바닥 찍고 반등?"… 대구·구미·울산 등 영남권 아파트 거래량 쑥</a></li>
-                </ul>
+                <h3 class="title">모든 과목 최신 노트 모아보기</h3>
+                <ul class="sub-article-list" id="category-all">
+                    </ul>
             </article>
-
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info">
-                        <div class="press-icon" style="background-color: #0047a0;"></div>
-                        <span>학교 수업</span>
-                    </div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 페이지</a>
-                </div>
-                
-                <a href="#" class="main-article">
-                    <div class="thumbnail">
-                        <img src="https://images.unsplash.com/photo-1541872511477-8d266e746a51?q=80&w=300&auto=format&fit=crop" alt="정치 뉴스">
-                    </div>
-                    <h3 class="title">대통령 "새마을운동, 박정희 전 대통령 시작… 지금도 유용"</h3>
-                </a>
-
-                <ul class="sub-article-list" id = "category-2" >
-                    <li><a href="#">코스피, 또 사상최고 7,981… '8천피' 19포인트 남았다</a></li>
-                    <li><a href="#">검찰, JMS 정명석 여신도 준강제추행 혐의 추가 기소</a></li>
-                    <li><a href="#">'흰고래 벨라 방류 시위' 단체 대표 2심서 벌금형… "표현의 자유 한계"</a></li>
-                </ul>
-            </article>
-
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info">
-                        <div class="press-icon" style="background-color: #e60012;"></div>
-                        <span>학원 수업</span>
-                    </div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 페이지</a>
-                </div>
-                
-                <a href="#" class="main-article">
-                    <div class="thumbnail">
-                        <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=300&auto=format&fit=crop" alt="사회 뉴스">
-                    </div>
-                    <h3 class="title">[속보] "꽃바구니 들고 찾아가 세모녀 살해"… 40대 무기수, 항소심서도</h3>
-                </a>
-
-                <ul class="sub-article-list" id = "category-3" >
-                    <li><a href="#">"5.18 언쟁도, 사과받은 기억도 없다"… 주진우, 정봉주 해명 반박</a></li>
-                    <li><a href="#">성폭력으로 형 살다 출소 후 피해자 집 주변 배회… 50대 징역형</a></li>
-                    <li><a href="#">'후보 등록'에 눈두덩이 붓고 멍든 채 등장한 조국… 무슨 일?</a></li>
-                </ul>
-            </article>
-
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info">
-                        <div class="press-icon" style="background-color: #ff6600;"></div>
-                        <span>학원 시험</span>
-                    </div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 페이지</a>
-                </div>
-                
-                <a href="#" class="main-article">
-                    <div class="thumbnail">
-                        <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=300&auto=format&fit=crop" alt="도시 전경">
-                    </div>
-                    <h3 class="title">310만 원은 언제까지 유지될까… 자고 일어나면 오르는 서울 집값</h3>
-                </a>
-
-                <ul class="sub-article-list" id = "category-4" >
-                    <li><a href="#">"삼양식품, 미국 법인 분기 최대 매출로 1분기 어닝 서프라이즈"</a></li>
-                    <li><a href="#">미국 항구에 끝없는 유조선 행렬… 이란 전쟁으로 국제 유가 비상</a></li>
-                    <li><a href="#">원전·가스터빈 수주 쌓인 두산에너빌리티, 올해 영업익 1조 넘기나</a></li>
-                </ul>
-            </article>
-
         </div>
-    </main>
+    </div>
+
+    <div id="tab-math" class="tab-content">
+        <div class="news-grid">
+            <article class="news-card">
+                <div class="card-header">
+                    <div class="press-info"><span>수학 I</span></div>
+                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                </div>
+                <h3 class="title">수학 개념 정리</h3>
+                <ul class="sub-article-list" id="math-1"></ul> 
+            </article>
+            <article class="news-card">
+                <div class="card-header">
+                    <div class="press-info"><span>수학 II</span></div>
+                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                </div>
+                <h3 class="title">오답 노트</h3>
+                <ul class="sub-article-list" id="math-2"></ul> 
+            </article>
+        </div>
+    </div>
+
+    <div id="tab-english" class="tab-content">
+        <div class="news-grid">
+            <article class="news-card">
+                <div class="card-header">
+                    <div class="press-info"><span>영어 단어</span></div>
+                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                </div>
+                <h3 class="title">오늘의 Voca</h3>
+                <ul class="sub-article-list" id="english-1"></ul> 
+            </article>
+        </div>
+    </div>
+
+    <div id="tab-korean" class="tab-content">
+        <div class="news-grid">
+            <article class="news-card">
+                <div class="card-header">
+                    <div class="press-info"><span>문학</span></div>
+                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                </div>
+                <h3 class="title">현대 문학 작품 분석</h3>
+                <ul class="sub-article-list" id="korean-1"></ul> 
+            </article>
+        </div>
+    </div>
+
+    <div id="tab-science" class="tab-content">
+        <div class="news-grid">
+            <article class="news-card">
+                <div class="card-header">
+                    <div class="press-info"><span>물리학 I</span></div>
+                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                </div>
+                <h3 class="title">역학과 에너지</h3>
+                <ul class="sub-article-list" id="science-1"></ul> 
+            </article>
+        </div>
+    </div>
+
+    <div id="tab-economy" class="tab-content">
+        <div class="news-grid">
+            <article class="news-card">
+                <div class="card-header">
+                    <div class="press-info"><span>사회문화</span></div>
+                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                </div>
+                <h3 class="title">사회학 개념 요약</h3>
+                <ul class="sub-article-list" id="economy-1"></ul> 
+            </article>
+        </div>
+    </div>
+
+    <div id="tab-korean-history" class="tab-content">
+        <div class="news-grid">
+            <article class="news-card">
+                <div class="card-header">
+                    <div class="press-info"><span>조선 시대</span></div>
+                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                </div>
+                <h3 class="title">조선의 건국과 통치 체제</h3>
+                <ul class="sub-article-list" id="history-1"></ul> 
+            </article>
+        </div>
+    </div>
+
+    <div id="tab-chinese" class="tab-content">
+        <div class="news-grid">
+            <article class="news-card">
+                <div class="card-header">
+                    <div class="press-info"><span>기초 회화</span></div>
+                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                </div>
+                <h3 class="title">필수 표현 암기</h3>
+                <ul class="sub-article-list" id="chinese-1"></ul> 
+            </article>
+        </div>
+    </div>
+
+    <div id="tab-computer" class="tab-content">
+        <div class="news-grid">
+            <article class="news-card">
+                <div class="card-header">
+                    <div class="press-info"><span>프로그래밍</span></div>
+                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                </div>
+                <h3 class="title">웹 개발 기초 (HTML/CSS)</h3>
+                <ul class="sub-article-list" id="computer-1"></ul> 
+            </article>
+        </div>
+    </div>
+
+</main>
 <script>
     window.onload = function() {
     const savedNotes = JSON.parse(localStorage.getItem('myNotes')) || [];
@@ -327,6 +365,24 @@
         });
     }
 };
+    // 탭 전환 기능
+function changeTab(event, tabId) {
+    event.preventDefault(); // a 태그를 눌렀을 때 페이지가 새로고침 되는 것을 막아줌
+
+    // 1. 모든 보따리(탭 콘텐츠)를 찾아서 숨기기 (active 클래스 제거)
+    const contents = document.querySelectorAll('.tab-content');
+    contents.forEach(content => content.classList.remove('active'));
+
+    // 2. 모든 메뉴 버튼의 색상 초기화 (active 클래스 제거)
+    const links = document.querySelectorAll('.tab-link');
+    links.forEach(link => link.classList.remove('active'));
+
+    // 3. 내가 클릭한 메뉴의 보따리만 보여주기 (active 클래스 추가)
+    document.getElementById(tabId).classList.add('active');
+    
+    // 4. 내가 클릭한 메뉴 버튼에만 색상 칠하기 (active 클래스 추가)
+    event.currentTarget.classList.add('active');
+}
 </script>
 </body>
 </html>
