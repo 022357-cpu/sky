@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새 노트 작성</title>
+    <style>
+        /* 기본 초기화 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+        }
+
+        body {
+            background-color: #f5f6f8; /* 에디터 바깥쪽 배경 (회색) */
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* 화면 전체 높이 사용 */
+        }
+
+        /* --- 상단 헤더 (제목 및 저장 버튼) --- */
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: #fff;
+            border-bottom: 1px solid #e4e8eb;
+        }
+
+        .title-input {
+            border: none;
+            font-size: 20px;
+            font-weight: 700;
+            outline: none;
+            width: 60%;
+            color: #222;
+        }
+        .title-input::placeholder {
+            color: #aaa;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid #e4e8eb;
+            background-color: #fff;
+            color: #444;
+            transition: all 0.2s ease;
+        }
+        button:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .btn-save {
+            background-color: #3b5998; /* 포인트 컬러 */
+            color: #fff;
+            border: none;
+        }
+        .btn-save:hover {
+            background-color: #2d4373;
+        }
+
+        /* --- 서식 툴바 --- */
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            padding: 10px 24px;
+            background-color: #fff;
+            border-bottom: 1px solid #e4e8eb;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            z-index: 10;
+        }
+
+        .toolbar button {
+            padding: 6px 12px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* --- 에디터 본문 영역 (A4 용지 느낌) --- */
+        .editor-container {
+            flex: 1; /* 남은 공간 모두 차지 */
+            overflow-y: auto; /* 내용이 길어지면 스크롤 */
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .editor-paper {
+            width: 100%;
+            max-width: 850px;
+            min-height: 1000px; /* A4 용지처럼 세로로 긴 형태 유지 */
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.03);
+            border-radius: 4px;
+            padding: 60px; /* 용지 안쪽 여백 */
+            font-size: 16px;
+            line-height: 1.7;
+            color: #333;
+            outline: none; /* 클릭 시 생기는 파란 테두리 제거 */
+        }
+
+        /* 빈 문서일 때 placeholder 역할 */
+        .editor-paper:empty:before {
+            content: attr(placeholder);
+            color: #aaa;
+            cursor: text;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="editor-header">
+        <input type="text" class="title-input" placeholder="제목 없는 문서">
+        <div class="action-buttons">
+            <button onclick="history.back()">취소 및 뒤로가기</button>
+            <button class="btn-save" onclick="alert('저장 기능은 백엔드 연동이 필요합니다!')">저장</button>
+        </div>
+    </header>
+
+    <div class="toolbar">
+        <button onclick="document.execCommand('bold')" title="굵게">B</button>
+        <button onclick="document.execCommand('italic')" title="기울임" style="font-style: italic;">I</button>
+        <button onclick="document.execCommand('underline')" title="밑줄" style="text-decoration: underline;">U</button>
+        <span style="color: #ccc; margin: 0 5px;">|</span>
+        <button onclick="document.execCommand('justifyLeft')">좌측 정렬</button>
+        <button onclick="document.execCommand('justifyCenter')">가운데 정렬</button>
+        <button onclick="document.execCommand('insertUnorderedList')">글머리 기호</button>
+    </div>
+
+    <main class="editor-container">
+        <div class="editor-paper" contenteditable="true" placeholder="오늘 학습한 내용을 자유롭게 정리해 보세요..."></div>
+    </main>
+
+</body>
+</html>
