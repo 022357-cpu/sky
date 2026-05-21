@@ -143,20 +143,51 @@
         </div>
         
     </header>
-        <div class="action-buttons">
-            <button onclick="history.back()">취소 및 뒤로가기</button>
-            <button class="btn-save" onclick="saveNote()">저장</button>
-        </div>
-    </header>
 
-    <div class="toolbar">
-        <button onclick="document.execCommand('bold')" title="굵게">B</button>
-        <button onclick="document.execCommand('italic')" title="기울임" style="font-style: italic;">I</button>
-        <button onclick="document.execCommand('underline')" title="밑줄" style="text-decoration: underline;">U</button>
-        <span style="color: #ccc; margin: 0 5px;">|</span>
-        <button onclick="document.execCommand('justifyLeft')">좌측 정렬</button>
-        <button onclick="document.execCommand('justifyCenter')">가운데 정렬</button>
-        <button onclick="document.execCommand('insertUnorderedList')">글머리 기호</button>
+    <div class="toolbar" style="display: flex; align-items: center; gap: 12px; padding: 10px 24px; background-color: #f8f9fa; border-bottom: 1px solid #e4e8eb; flex-wrap: wrap;">
+        
+        <button onclick="document.execCommand('undo')" title="실행 취소" style="border:none; background:none; cursor:pointer; font-size:16px;">↩</button>
+        <button onclick="document.execCommand('redo')" title="다시 실행" style="border:none; background:none; cursor:pointer; font-size:16px;">↪</button>
+        
+        <span style="color: #ccc;">|</span>
+        
+        <select onchange="document.execCommand('formatBlock', false, this.value)" style="border:1px solid #ddd; padding:4px; border-radius:4px; cursor:pointer;">
+            <option value="p">일반 텍스트</option>
+            <option value="h1">제목 1</option>
+            <option value="h2">제목 2</option>
+            <option value="h3">제목 3</option>
+        </select>
+        
+        <span style="color: #ccc;">|</span>
+        
+        <select onchange="document.execCommand('fontName', false, this.value)" style="border:1px solid #ddd; padding:4px; border-radius:4px; cursor:pointer;">
+            <option value="Arial">Arial</option>
+            <option value="Malgun Gothic">맑은 고딕</option>
+            <option value="Pretendard">Pretendard</option>
+            <option value="궁서">궁서</option>
+        </select>
+        
+        <span style="color: #ccc;">|</span>
+        
+        <button onclick="document.execCommand('fontSize', false, '5')" title="크게" style="border:1px solid #ddd; background:#fff; padding:2px 6px; cursor:pointer; border-radius:4px;">A+</button>
+        <button onclick="document.execCommand('fontSize', false, '3')" title="작게" style="border:1px solid #ddd; background:#fff; padding:2px 6px; cursor:pointer; border-radius:4px;">A-</button>
+
+        <span style="color: #ccc;">|</span>
+
+        <button onclick="document.execCommand('bold')" title="굵게" style="border:none; background:none; cursor:pointer; font-weight:bold; font-size:16px;">B</button>
+        <button onclick="document.execCommand('italic')" title="기울임" style="border:none; background:none; cursor:pointer; font-style:italic; font-size:16px; font-family:serif;">I</button>
+        <button onclick="document.execCommand('underline')" title="밑줄" style="border:none; background:none; cursor:pointer; text-decoration:underline; font-size:16px;">U</button>
+
+        <span style="color: #ccc;">|</span>
+        
+        <div style="display:flex; align-items:center; gap:4px; cursor:pointer;">
+            <span style="font-size:14px; font-weight:bold; border-bottom:3px solid #000;">A</span>
+            <input type="color" onchange="document.execCommand('foreColor', false, this.value)" title="글자 색상" style="width:22px; height:22px; border:none; padding:0; cursor:pointer;">
+        </div>
+        <div style="display:flex; align-items:center; gap:4px; cursor:pointer; margin-left: 5px;">
+            <span style="font-size:14px; font-weight:bold; background-color:#ffeb3b; padding:0 2px;">A</span>
+            <input type="color" onchange="document.execCommand('hiliteColor', false, this.value)" title="배경 색상(형광펜)" style="width:22px; height:22px; border:none; padding:0; cursor:pointer;">
+        </div>
     </div>
 
     <main class="editor-container">
