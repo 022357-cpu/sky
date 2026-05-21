@@ -247,23 +247,28 @@ function addNewBox() {
 }
 
 // 박스를 화면에 그려주는 함수
+// 박스를 화면에 그려주는 함수 (수정, 삭제 버튼 추가)
 function renderCustomBox(tabId, boxId, boxTitle) {
     const targetTabGrid = document.querySelector(`#${tabId} .news-grid`);
     if (!targetTabGrid) return;
 
+    // 통째로 삭제하기 쉽도록 article 태그에 id="card-..." 부여
     const boxHTML = `
-        <article class="news-card">
+        <article class="news-card" id="card-${boxId}">
             <div class="card-header">
-                <div class="press-info"><span>추가된 박스</span></div>
+                <div class="press-info">
+                    <span>추가된 박스</span>
+                    <button onclick="editBox('${boxId}')" style="margin-left: 10px; font-size: 11px; padding: 2px 6px; cursor: pointer;">수정</button>
+                    <button onclick="deleteBox('${boxId}')" style="margin-left: 4px; font-size: 11px; padding: 2px 6px; color: red; cursor: pointer;">삭제</button>
+                </div>
                 <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
             </div>
-            <h3 class="title">${boxTitle}</h3>
+            <h3 class="title" id="title-${boxId}">${boxTitle}</h3>
             <ul class="sub-article-list" id="${boxId}"></ul>
         </article>
     `;
     targetTabGrid.insertAdjacentHTML('beforeend', boxHTML);
 }
-
 // 기존 window.onload 코드를 아래처럼 수정해서 저장된 커스텀 박스도 띄우게 만듭니다.
 const originalOnload = window.onload;
 window.onload = function() {
@@ -401,22 +406,160 @@ window.onload = function() {
     </div>
 
 </main>
+// 시간 포맷팅 함수 (예: 2023.09.21 7:30)
 <script>
-    window.onload = function() {
-    window.onload = function() {
-    const savedNotes = JSON.parse(localStorage.getItem('myNotes')) || [];
+    function getCurrentFormattedTime() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const h = now.getHours();
+    const min = String(now.getMinutes()).padStart(2, '0');
+    return `${y}.${m}.${d} ${h}:${min}`;
+}
 
+// 탭 열람 시간 기록 및 화면 표시
+function updateBoxOpenTime(tabId) {
+    const timeStr = getCurrentFormattedTime();
+    
+    // 로컬스토리지에 열람 시간 저장
+    let openTimes = JSON.parse(localStorage.getItem('boxOpenTimes')) || {};
+    openTimes[tabId] = timeStr;
+    localStorage.setItem('boxOpenTimes', JSON.stringify(openTimes));
+
+    // 화면 업데이트
+    displayBoxOpenTimes();
+}
+
+// 모든 박스 하단에 열람 시간 그려주기
+function displayBoxOpenTimes() {
+    let openTimes = JSON.parse(localStorage.getItem('boxOpenTimes')) || {};
+    
+    const allTabs = document.querySelectorAll('.tab-content');
+    allTabs.forEach(tab => {
+        const tabId = tab.id;
+        if (openTimes[tabId]) {
+            const cards = tab.querySelectorAll('.news-card');
+            cards.forEach(card => {
+                let timeDiv = card.querySelector('.last-opened-time');
+                if (!timeDiv) {
+                    timeDiv = document.createElement('div');
+                    timeDiv.className = 'last-opened-time';
+                    // 회색 작은 글씨 (요청하신 스타일)
+                    timeDiv.style.cssText = 'margin-top: 15px; font-size: 11px; color: #999; text-align: right;';
+                    card.appendChild(timeDiv);
+                }
+                timeDiv.textContent = `최근 열람: ${openTimes[tabId]}`;
+            });
+        }
+    });
+}
+
+// 탭 전환 기능 (클릭 시 시간도 업데이트)
+function changeTab(event, tabId) {
+    event.preventDefault(); 
+    const contents = document.querySelectorAll('.tab-content');
+    contents.forEach(content => content.classList.remove('active'));
+
+    const links = document.querySelectorAll('.tab-link');
+    links.forEach(link => link.classList.remove('active'));
+
+    document.getElementById(tabId).classList.add('active');
+    event.currentTarget.classList.add('active');
+
+    // 탭을 열 때마다 최근 열람 시간 업데이트
+    updateBoxOpenTime(tabId);
+}
+
+// 새 박스 추가 함수
+function addNewBox() {
+    const boxTitle = prompt("새로운 박스(주제)의 이름을 입력하세요:");
+    if (!boxTitle || boxTitle.trim() === "") return;
+
+    const activeTab = document.querySelector('.tab-content.active');
+    const tabId = activeTab.id;
+    const boxId = 'custom-' + Date.now();
+
+    const customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
+    customBoxes.push({ tabId: tabId, boxId: boxId, title: boxTitle });
+    localStorage.setItem('myBoxes', JSON.stringify(customBoxes));
+
+    renderCustomBox(tabId, boxId, boxTitle);
+    displayBoxOpenTimes(); // 새 박스 추가 후 시간 표시 업데이트
+    alert("박스가 추가되었습니다!");
+}
+
+// 커스텀 박스를 화면에 그리는 함수
+function renderCustomBox(tabId, boxId, boxTitle) {
+    const targetTabGrid = document.querySelector(`#${tabId} .news-grid`);
+    if (!targetTabGrid) return;
+
+    const boxHTML = `
+        <article class="news-card" id="card-${boxId}">
+            <div class="card-header">
+                <div class="press-info">
+                    <span>추가된 박스</span>
+                    <button onclick="editBox('${boxId}')" style="margin-left: 10px; font-size: 11px; padding: 2px 6px; cursor: pointer;">수정</button>
+                    <button onclick="deleteBox('${boxId}')" style="margin-left: 4px; font-size: 11px; padding: 2px 6px; color: red; cursor: pointer;">삭제</button>
+                </div>
+                <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+            </div>
+            <h3 class="title" id="title-${boxId}">${boxTitle}</h3>
+            <ul class="sub-article-list" id="${boxId}"></ul>
+        </article>
+    `;
+    targetTabGrid.insertAdjacentHTML('beforeend', boxHTML);
+}
+
+// 박스 이름 수정 함수
+function editBox(boxId) {
+    const newTitle = prompt("변경할 박스 이름을 입력해주세요:");
+    if (!newTitle || newTitle.trim() === "") return; 
+
+    let customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
+    customBoxes = customBoxes.map(box => {
+        if (box.boxId === boxId) box.title = newTitle;
+        return box;
+    });
+    localStorage.setItem('myBoxes', JSON.stringify(customBoxes));
+
+    const titleElement = document.getElementById(`title-${boxId}`);
+    if (titleElement) titleElement.textContent = newTitle;
+    alert("박스 이름이 수정되었습니다!");
+}
+
+// 박스 삭제 함수
+function deleteBox(boxId) {
+    const isConfirm = confirm("정말 이 박스를 삭제하시겠습니까? (안에 있던 노트는 화면에서 사라집니다)");
+    if (!isConfirm) return;
+
+    let customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
+    customBoxes = customBoxes.filter(box => box.boxId !== boxId);
+    localStorage.setItem('myBoxes', JSON.stringify(customBoxes));
+
+    const cardElement = document.getElementById(`card-${boxId}`);
+    if (cardElement) cardElement.remove();
+    alert("박스가 삭제되었습니다.");
+}
+
+// 페이지 로드 시 실행 (기존 작성한 노트 불러오기 & 시간 불러오기)
+window.onload = function() {
+    // 1. 커스텀 박스 그리기
+    const customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
+    customBoxes.forEach(box => renderCustomBox(box.tabId, box.boxId, box.title));
+
+    // 2. 노트 리스트 불러오기
+    const savedNotes = JSON.parse(localStorage.getItem('myNotes')) || [];
     if (savedNotes.length > 0) {
         savedNotes.reverse().forEach(note => {
-            // 1. 각 과목별 박스에 넣기
             const targetList = document.getElementById(note.category);
             if (targetList) {
                 const li = document.createElement('li');
                 li.innerHTML = `<a href="#">[새 노트] ${note.title}</a>`;
                 targetList.prepend(li);
             }
-
-            // 2. '모든 과목 최신 노트 모아보기' 박스에도 다 같이 넣기
+            
+            // "모든 과목 최신 노트 모아보기"에도 추가
             const allList = document.getElementById('category-all');
             if (allList) {
                 const liAll = document.createElement('li');
@@ -425,26 +568,10 @@ window.onload = function() {
             }
         });
     }
+
+    // 3. 마지막 열람 시간 표시
+    displayBoxOpenTimes();
 };
-            
-    // 탭 전환 기능
-function changeTab(event, tabId) {
-    event.preventDefault(); // a 태그를 눌렀을 때 페이지가 새로고침 되는 것을 막아줌
-
-    // 1. 모든 보따리(탭 콘텐츠)를 찾아서 숨기기 (active 클래스 제거)
-    const contents = document.querySelectorAll('.tab-content');
-    contents.forEach(content => content.classList.remove('active'));
-
-    // 2. 모든 메뉴 버튼의 색상 초기화 (active 클래스 제거)
-    const links = document.querySelectorAll('.tab-link');
-    links.forEach(link => link.classList.remove('active'));
-
-    // 3. 내가 클릭한 메뉴의 보따리만 보여주기 (active 클래스 추가)
-    document.getElementById(tabId).classList.add('active');
-    
-    // 4. 내가 클릭한 메뉴 버튼에만 색상 칠하기 (active 클래스 추가)
-    event.currentTarget.classList.add('active');
-}
 </script>
 </body>
 </html>
