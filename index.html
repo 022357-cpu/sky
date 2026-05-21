@@ -6,189 +6,44 @@
     <title>학습 페이지</title>
     <style>
         /* 기본 초기화 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-        }
-
-        body {
-            background-color: #f5f6f8; /* 포털 특유의 밝은 회색 배경 */
-            color: #222;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
+        body { background-color: #f5f6f8; color: #222; }
+        a { text-decoration: none; color: inherit; }
 
         /* --- 헤더 영역 --- */
-        .global-header {
-            background-color: #3b5998; /* 블루 계열 헤더 */
-            color: #fff;
-            padding: 12px 0;
-        }
-        .header-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            font-size: 20px;
-            font-weight: bold;
-            padding: 0 20px;
-        }
-        .header-inner span {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            font-weight: normal;
-            margin-left: 20px;
-        }
+        .global-header { background-color: #3b5998; color: #fff; padding: 12px 0; }
+        .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; font-size: 20px; font-weight: bold; padding: 0 20px; }
+        .header-inner span { color: rgba(255, 255, 255, 0.7); font-size: 14px; font-weight: normal; margin-left: 20px; }
 
         /* --- 서브 네비게이션 --- */
-        .sub-nav {
-            background-color: #fff;
-            border-bottom: 1px solid #e4e8eb;
-        }
-        .nav-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            gap: 24px;
-            padding: 16px 20px;
-            font-size: 15px;
-            font-weight: 600;
-        }
-        .nav-inner a.active {
-            color: #3b5998;
-        }
+        .sub-nav { background-color: #fff; border-bottom: 1px solid #e4e8eb; }
+        .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 24px; padding: 16px 20px; font-size: 15px; font-weight: 600; }
+        .nav-inner a.active { color: #3b5998; }
 
         /* --- 메인 콘텐츠 컨테이너 --- */
-        .main-container {
-            max-width: 1100px;
-            margin: 24px auto;
-            padding: 0 20px;
-        }
+        .main-container { max-width: 1100px; margin: 24px auto; padding: 0 20px; }
+        .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .news-card { background-color: #fff; border: 1px solid #e4e8eb; border-radius: 6px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
 
-        /* --- 3단 그리드 레이아웃 --- */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3개의 열을 동일한 비율로 생성 */
-            gap: 20px; /* 카드 사이 간격 */
-        }
+        /* 언론사 헤더 */
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .press-info { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
+        .btn-subscribe { font-size: 12px; color: #3b5998; border: 1px solid #e4e8eb; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+        .btn-subscribe:hover { background-color: #f8f9fa; }
+        
+        .title { font-size: 15px; font-weight: 600; line-height: 1.4; letter-spacing: -0.5px; margin-bottom: 10px; }
+        
+        .sub-article-list { list-style: none; }
+        .sub-article-list li { margin-bottom: 10px; }
+        .sub-article-list li:last-child { margin-bottom: 0; }
+        .sub-article-list a { font-size: 14px; color: #444; letter-spacing: -0.5px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sub-article-list a:hover { text-decoration: underline; }
 
-        /* --- 개별 뉴스 카드 (언론사 박스) --- */
-        .news-card {
-            background-color: #fff;
-            border: 1px solid #e4e8eb;
-            border-radius: 6px;
-            padding: 18px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-        }
-
-        /* 언론사 헤더 (로고 및 구독 버튼) */
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .press-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            font-size: 14px;
-        }
-        .press-icon {
-            width: 20px;
-            height: 20px;
-            background-color: #eee;
-            border-radius: 50%;
-        }
-        .btn-subscribe {
-            font-size: 12px;
-            color: #3b5998;
-            border: 1px solid #e4e8eb;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-        .btn-subscribe:hover {
-            background-color: #f8f9fa;
-        }
-
-        /* 썸네일이 포함된 메인 기사 */
-        .main-article {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .main-article .thumbnail {
-            flex-shrink: 0;
-            width: 120px;
-            height: 80px;
-            background-color: #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .main-article .thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .main-article .title {
-            font-size: 15px;
-            font-weight: 600;
-            line-height: 1.4;
-            letter-spacing: -0.5px;
-            /* 3줄 이상 말줄임 */
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* 텍스트 리스트형 서브 기사 */
-        .sub-article-list {
-            list-style: none;
-        }
-        .sub-article-list li {
-            margin-bottom: 10px;
-        }
-        .sub-article-list li:last-child {
-            margin-bottom: 0;
-        }
-        .sub-article-list a {
-            font-size: 14px;
-            color: #444;
-            letter-spacing: -0.5px;
-            /* 1줄 텍스트 말줄임(...) 처리 */
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .sub-article-list a:hover {
-            text-decoration: underline;
-        }
-
-        /* 반응형 처리 (화면이 좁아지면 2단 -> 1단으로 변경) */
-        @media (max-width: 900px) {
-            .news-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 600px) {
-            .news-grid { grid-template-columns: 1fr; }
-        }
-        /* --- 탭(Tab) 화면 전환용 CSS --- */
-        .tab-content {
-            display: none; /* 기본적으로 모든 탭 숨기기 */
-        }
-        .tab-content.active {
-            display: block; /* active 클래스가 붙은 탭만 보이기 */
-        }
+        /* 반응형 및 탭 */
+        @media (max-width: 900px) { .news-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .news-grid { grid-template-columns: 1fr; } }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
     </style>
 </head>
 <body>
@@ -214,364 +69,297 @@
     </nav>
 
     <main class="main-container">
-    <div style="text-align: right; margin-bottom: 20px;">
-        <button onclick="addNewBox()" style="padding: 8px 16px; background-color: #3b5998; color: white; border: none; border-radius: 4px; cursor: pointer;">+ 현재 탭에 새 박스 추가</button>
-    </div>
-    
-    ```
-
-**2. `index.html` 스크립트 업데이트 (가장 아래 `<script>` 태그 안)**
-새로운 박스를 만들고 불러오는 기능입니다. 기존 스크립트 맨 아래에 다음 코드를 추가하세요.
-
-```javascript
-// 새 박스를 추가하는 함수
-function addNewBox() {
-    const boxTitle = prompt("새로운 박스(주제)의 이름을 입력하세요:");
-    if (!boxTitle) return;
-
-    // 현재 화면에 켜져 있는 탭 찾기
-    const activeTab = document.querySelector('.tab-content.active');
-    const tabId = activeTab.id;
-
-    // 겹치지 않는 고유 ID 생성 (에디터와 연결하기 위함)
-    const boxId = 'custom-' + Date.now();
-
-    // 로컬스토리지에 새 박스 정보 저장
-    const customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
-    customBoxes.push({ tabId: tabId, boxId: boxId, title: boxTitle });
-    localStorage.setItem('myBoxes', JSON.stringify(customBoxes));
-
-    // 화면에 방금 만든 박스 즉시 그리기
-    renderCustomBox(tabId, boxId, boxTitle);
-    alert("박스가 추가되었습니다!");
-}
-
-// 박스를 화면에 그려주는 함수
-// 박스를 화면에 그려주는 함수 (수정, 삭제 버튼 추가)
-function renderCustomBox(tabId, boxId, boxTitle) {
-    const targetTabGrid = document.querySelector(`#${tabId} .news-grid`);
-    if (!targetTabGrid) return;
-
-    // 통째로 삭제하기 쉽도록 article 태그에 id="card-..." 부여
-    const boxHTML = `
-        <article class="news-card" id="card-${boxId}">
-            <div class="card-header">
-                <div class="press-info">
-                    <span>추가된 박스</span>
-                    <button onclick="editBox('${boxId}')" style="margin-left: 10px; font-size: 11px; padding: 2px 6px; cursor: pointer;">수정</button>
-                    <button onclick="deleteBox('${boxId}')" style="margin-left: 4px; font-size: 11px; padding: 2px 6px; color: red; cursor: pointer;">삭제</button>
-                </div>
-                <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+        <div style="text-align: right; margin-bottom: 20px;">
+            <button onclick="addNewBox()" style="padding: 8px 16px; background-color: #3b5998; color: white; border: none; border-radius: 4px; cursor: pointer;">+ 현재 탭에 새 박스 추가</button>
+        </div>
+        
+        <div id="tab-press" class="tab-content active">
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="card-header">
+                        <div class="press-info"><span>최근 학습 현황</span></div>
+                        <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                    </div>
+                    <h3 class="title">모든 과목 최신 노트 모아보기</h3>
+                    <ul class="sub-article-list" id="category-all"></ul>
+                </article>
             </div>
-            <h3 class="title" id="title-${boxId}">${boxTitle}</h3>
-            <ul class="sub-article-list" id="${boxId}"></ul>
-        </article>
-    `;
-    targetTabGrid.insertAdjacentHTML('beforeend', boxHTML);
-}
-// 기존 window.onload 코드를 아래처럼 수정해서 저장된 커스텀 박스도 띄우게 만듭니다.
-const originalOnload = window.onload;
-window.onload = function() {
-    // 1. 내가 만든 커스텀 박스들 먼저 화면에 그리기
-    const customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
-    customBoxes.forEach(box => renderCustomBox(box.tabId, box.boxId, box.title));
-
-    // 2. 기존의 노트 렌더링 코드 실행
-    if (originalOnload) originalOnload(); 
-};
-    <div id="tab-press" class="tab-content active">
-        <div class="news-grid">
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info"><span>최근 학습 현황</span></div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
-                </div>
-                <h3 class="title">모든 과목 최신 노트 모아보기</h3>
-                <ul class="sub-article-list" id="category-all">
-                    </ul>
-            </article>
         </div>
-    </div>
 
-    <div id="tab-math" class="tab-content">
-        <div class="news-grid">
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info"><span>수학 I</span></div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
-                </div>
-                <h3 class="title">수학 개념 정리</h3>
-                <ul class="sub-article-list" id="math-1"></ul> 
-            </article>
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info"><span>수학 II</span></div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
-                </div>
-                <h3 class="title">오답 노트</h3>
-                <ul class="sub-article-list" id="math-2"></ul> 
-            </article>
+        <div id="tab-math" class="tab-content">
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="card-header">
+                        <div class="press-info"><span>수학 I</span></div>
+                        <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                    </div>
+                    <h3 class="title">수학 개념 정리</h3>
+                    <ul class="sub-article-list" id="math-1"></ul> 
+                </article>
+                <article class="news-card">
+                    <div class="card-header">
+                        <div class="press-info"><span>수학 II</span></div>
+                        <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                    </div>
+                    <h3 class="title">오답 노트</h3>
+                    <ul class="sub-article-list" id="math-2"></ul> 
+                </article>
+            </div>
         </div>
-    </div>
 
-    <div id="tab-english" class="tab-content">
-        <div class="news-grid">
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info"><span>영어 단어</span></div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
-                </div>
-                <h3 class="title">오늘의 Voca</h3>
-                <ul class="sub-article-list" id="english-1"></ul> 
-            </article>
+        <div id="tab-english" class="tab-content">
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="card-header">
+                        <div class="press-info"><span>영어 단어</span></div>
+                        <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                    </div>
+                    <h3 class="title">오늘의 Voca</h3>
+                    <ul class="sub-article-list" id="english-1"></ul> 
+                </article>
+            </div>
         </div>
-    </div>
 
-    <div id="tab-korean" class="tab-content">
-        <div class="news-grid">
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info"><span>문학</span></div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
-                </div>
-                <h3 class="title">현대 문학 작품 분석</h3>
-                <ul class="sub-article-list" id="korean-1"></ul> 
-            </article>
+        <div id="tab-korean" class="tab-content">
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="card-header">
+                        <div class="press-info"><span>문학</span></div>
+                        <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                    </div>
+                    <h3 class="title">현대 문학 작품 분석</h3>
+                    <ul class="sub-article-list" id="korean-1"></ul> 
+                </article>
+            </div>
         </div>
-    </div>
 
-    <div id="tab-science" class="tab-content">
-        <div class="news-grid">
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info"><span>물리학 I</span></div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
-                </div>
-                <h3 class="title">역학과 에너지</h3>
-                <ul class="sub-article-list" id="science-1"></ul> 
-            </article>
+        <div id="tab-science" class="tab-content">
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="card-header">
+                        <div class="press-info"><span>물리학 I</span></div>
+                        <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                    </div>
+                    <h3 class="title">역학과 에너지</h3>
+                    <ul class="sub-article-list" id="science-1"></ul> 
+                </article>
+            </div>
         </div>
-    </div>
 
-    <div id="tab-economy" class="tab-content">
-        <div class="news-grid">
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info"><span>사회문화</span></div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
-                </div>
-                <h3 class="title">사회학 개념 요약</h3>
-                <ul class="sub-article-list" id="economy-1"></ul> 
-            </article>
+        <div id="tab-economy" class="tab-content">
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="card-header">
+                        <div class="press-info"><span>사회문화</span></div>
+                        <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                    </div>
+                    <h3 class="title">사회학 개념 요약</h3>
+                    <ul class="sub-article-list" id="economy-1"></ul> 
+                </article>
+            </div>
         </div>
-    </div>
 
-    <div id="tab-korean-history" class="tab-content">
-        <div class="news-grid">
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info"><span>조선 시대</span></div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
-                </div>
-                <h3 class="title">조선의 건국과 통치 체제</h3>
-                <ul class="sub-article-list" id="history-1"></ul> 
-            </article>
+        <div id="tab-korean-history" class="tab-content">
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="card-header">
+                        <div class="press-info"><span>조선 시대</span></div>
+                        <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                    </div>
+                    <h3 class="title">조선의 건국과 통치 체제</h3>
+                    <ul class="sub-article-list" id="history-1"></ul> 
+                </article>
+            </div>
         </div>
-    </div>
 
-    <div id="tab-chinese" class="tab-content">
-        <div class="news-grid">
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info"><span>기초 회화</span></div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
-                </div>
-                <h3 class="title">필수 표현 암기</h3>
-                <ul class="sub-article-list" id="chinese-1"></ul> 
-            </article>
+        <div id="tab-chinese" class="tab-content">
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="card-header">
+                        <div class="press-info"><span>기초 회화</span></div>
+                        <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                    </div>
+                    <h3 class="title">필수 표현 암기</h3>
+                    <ul class="sub-article-list" id="chinese-1"></ul> 
+                </article>
+            </div>
         </div>
-    </div>
 
-    <div id="tab-computer" class="tab-content">
-        <div class="news-grid">
-            <article class="news-card">
-                <div class="card-header">
-                    <div class="press-info"><span>프로그래밍</span></div>
-                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
-                </div>
-                <h3 class="title">웹 개발 기초 (HTML/CSS)</h3>
-                <ul class="sub-article-list" id="computer-1"></ul> 
-            </article>
+        <div id="tab-computer" class="tab-content">
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="card-header">
+                        <div class="press-info"><span>프로그래밍</span></div>
+                        <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                    </div>
+                    <h3 class="title">웹 개발 기초 (HTML/CSS)</h3>
+                    <ul class="sub-article-list" id="computer-1"></ul> 
+                </article>
+            </div>
         </div>
-    </div>
+    </main>
 
-</main>
-// 시간 포맷팅 함수 (예: 2023.09.21 7:30)
 <script>
+    // 시간 포맷팅 함수 (예: 2023.09.21 7:30)
     function getCurrentFormattedTime() {
-    const now = new Date();
-    const y = now.getFullYear();
-    const m = String(now.getMonth() + 1).padStart(2, '0');
-    const d = String(now.getDate()).padStart(2, '0');
-    const h = now.getHours();
-    const min = String(now.getMinutes()).padStart(2, '0');
-    return `${y}.${m}.${d} ${h}:${min}`;
-}
+        const now = new Date();
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const d = String(now.getDate()).padStart(2, '0');
+        const h = now.getHours();
+        const min = String(now.getMinutes()).padStart(2, '0');
+        return `${y}.${m}.${d} ${h}:${min}`;
+    }
 
-// 탭 열람 시간 기록 및 화면 표시
-function updateBoxOpenTime(tabId) {
-    const timeStr = getCurrentFormattedTime();
-    
-    // 로컬스토리지에 열람 시간 저장
-    let openTimes = JSON.parse(localStorage.getItem('boxOpenTimes')) || {};
-    openTimes[tabId] = timeStr;
-    localStorage.setItem('boxOpenTimes', JSON.stringify(openTimes));
+    // 탭 열람 시간 기록 및 화면 표시
+    function updateBoxOpenTime(tabId) {
+        const timeStr = getCurrentFormattedTime();
+        let openTimes = JSON.parse(localStorage.getItem('boxOpenTimes')) || {};
+        openTimes[tabId] = timeStr;
+        localStorage.setItem('boxOpenTimes', JSON.stringify(openTimes));
+        displayBoxOpenTimes();
+    }
 
-    // 화면 업데이트
-    displayBoxOpenTimes();
-}
-
-// 모든 박스 하단에 열람 시간 그려주기
-function displayBoxOpenTimes() {
-    let openTimes = JSON.parse(localStorage.getItem('boxOpenTimes')) || {};
-    
-    const allTabs = document.querySelectorAll('.tab-content');
-    allTabs.forEach(tab => {
-        const tabId = tab.id;
-        if (openTimes[tabId]) {
-            const cards = tab.querySelectorAll('.news-card');
-            cards.forEach(card => {
-                let timeDiv = card.querySelector('.last-opened-time');
-                if (!timeDiv) {
-                    timeDiv = document.createElement('div');
-                    timeDiv.className = 'last-opened-time';
-                    // 회색 작은 글씨 (요청하신 스타일)
-                    timeDiv.style.cssText = 'margin-top: 15px; font-size: 11px; color: #999; text-align: right;';
-                    card.appendChild(timeDiv);
-                }
-                timeDiv.textContent = `최근 열람: ${openTimes[tabId]}`;
-            });
-        }
-    });
-}
-
-// 탭 전환 기능 (클릭 시 시간도 업데이트)
-function changeTab(event, tabId) {
-    event.preventDefault(); 
-    const contents = document.querySelectorAll('.tab-content');
-    contents.forEach(content => content.classList.remove('active'));
-
-    const links = document.querySelectorAll('.tab-link');
-    links.forEach(link => link.classList.remove('active'));
-
-    document.getElementById(tabId).classList.add('active');
-    event.currentTarget.classList.add('active');
-
-    // 탭을 열 때마다 최근 열람 시간 업데이트
-    updateBoxOpenTime(tabId);
-}
-
-// 새 박스 추가 함수
-function addNewBox() {
-    const boxTitle = prompt("새로운 박스(주제)의 이름을 입력하세요:");
-    if (!boxTitle || boxTitle.trim() === "") return;
-
-    const activeTab = document.querySelector('.tab-content.active');
-    const tabId = activeTab.id;
-    const boxId = 'custom-' + Date.now();
-
-    const customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
-    customBoxes.push({ tabId: tabId, boxId: boxId, title: boxTitle });
-    localStorage.setItem('myBoxes', JSON.stringify(customBoxes));
-
-    renderCustomBox(tabId, boxId, boxTitle);
-    displayBoxOpenTimes(); // 새 박스 추가 후 시간 표시 업데이트
-    alert("박스가 추가되었습니다!");
-}
-
-// 커스텀 박스를 화면에 그리는 함수
-function renderCustomBox(tabId, boxId, boxTitle) {
-    const targetTabGrid = document.querySelector(`#${tabId} .news-grid`);
-    if (!targetTabGrid) return;
-
-    const boxHTML = `
-        <article class="news-card" id="card-${boxId}">
-            <div class="card-header">
-                <div class="press-info">
-                    <span>추가된 박스</span>
-                    <button onclick="editBox('${boxId}')" style="margin-left: 10px; font-size: 11px; padding: 2px 6px; cursor: pointer;">수정</button>
-                    <button onclick="deleteBox('${boxId}')" style="margin-left: 4px; font-size: 11px; padding: 2px 6px; color: red; cursor: pointer;">삭제</button>
-                </div>
-                <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
-            </div>
-            <h3 class="title" id="title-${boxId}">${boxTitle}</h3>
-            <ul class="sub-article-list" id="${boxId}"></ul>
-        </article>
-    `;
-    targetTabGrid.insertAdjacentHTML('beforeend', boxHTML);
-}
-
-// 박스 이름 수정 함수
-function editBox(boxId) {
-    const newTitle = prompt("변경할 박스 이름을 입력해주세요:");
-    if (!newTitle || newTitle.trim() === "") return; 
-
-    let customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
-    customBoxes = customBoxes.map(box => {
-        if (box.boxId === boxId) box.title = newTitle;
-        return box;
-    });
-    localStorage.setItem('myBoxes', JSON.stringify(customBoxes));
-
-    const titleElement = document.getElementById(`title-${boxId}`);
-    if (titleElement) titleElement.textContent = newTitle;
-    alert("박스 이름이 수정되었습니다!");
-}
-
-// 박스 삭제 함수
-function deleteBox(boxId) {
-    const isConfirm = confirm("정말 이 박스를 삭제하시겠습니까? (안에 있던 노트는 화면에서 사라집니다)");
-    if (!isConfirm) return;
-
-    let customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
-    customBoxes = customBoxes.filter(box => box.boxId !== boxId);
-    localStorage.setItem('myBoxes', JSON.stringify(customBoxes));
-
-    const cardElement = document.getElementById(`card-${boxId}`);
-    if (cardElement) cardElement.remove();
-    alert("박스가 삭제되었습니다.");
-}
-
-// 페이지 로드 시 실행 (기존 작성한 노트 불러오기 & 시간 불러오기)
-window.onload = function() {
-    // 1. 커스텀 박스 그리기
-    const customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
-    customBoxes.forEach(box => renderCustomBox(box.tabId, box.boxId, box.title));
-
-    // 2. 노트 리스트 불러오기
-    const savedNotes = JSON.parse(localStorage.getItem('myNotes')) || [];
-    if (savedNotes.length > 0) {
-        savedNotes.reverse().forEach(note => {
-            const targetList = document.getElementById(note.category);
-            if (targetList) {
-                const li = document.createElement('li');
-                li.innerHTML = `<a href="#">[새 노트] ${note.title}</a>`;
-                targetList.prepend(li);
-            }
-            
-            // "모든 과목 최신 노트 모아보기"에도 추가
-            const allList = document.getElementById('category-all');
-            if (allList) {
-                const liAll = document.createElement('li');
-                liAll.innerHTML = `<a href="#">[새 노트] ${note.title}</a>`;
-                allList.prepend(liAll);
+    // 모든 박스 하단에 열람 시간 그려주기
+    function displayBoxOpenTimes() {
+        let openTimes = JSON.parse(localStorage.getItem('boxOpenTimes')) || {};
+        const allTabs = document.querySelectorAll('.tab-content');
+        
+        allTabs.forEach(tab => {
+            const tabId = tab.id;
+            if (openTimes[tabId]) {
+                const cards = tab.querySelectorAll('.news-card');
+                cards.forEach(card => {
+                    let timeDiv = card.querySelector('.last-opened-time');
+                    if (!timeDiv) {
+                        timeDiv = document.createElement('div');
+                        timeDiv.className = 'last-opened-time';
+                        timeDiv.style.cssText = 'margin-top: 15px; font-size: 11px; color: #999; text-align: right; border-top: 1px dashed #eee; padding-top: 8px;';
+                        card.appendChild(timeDiv);
+                    }
+                    timeDiv.textContent = `최근 열람: ${openTimes[tabId]}`;
+                });
             }
         });
     }
 
-    // 3. 마지막 열람 시간 표시
-    displayBoxOpenTimes();
-};
+    // 탭 전환 기능 (클릭 시 시간도 업데이트)
+    function changeTab(event, tabId) {
+        event.preventDefault(); 
+        const contents = document.querySelectorAll('.tab-content');
+        contents.forEach(content => content.classList.remove('active'));
+
+        const links = document.querySelectorAll('.tab-link');
+        links.forEach(link => link.classList.remove('active'));
+
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+
+        // 탭을 열 때마다 최근 열람 시간 업데이트
+        updateBoxOpenTime(tabId);
+    }
+
+    // 새 박스 추가 함수
+    function addNewBox() {
+        const boxTitle = prompt("새로운 박스(주제)의 이름을 입력하세요:");
+        if (!boxTitle || boxTitle.trim() === "") return;
+
+        const activeTab = document.querySelector('.tab-content.active');
+        const tabId = activeTab.id;
+        const boxId = 'custom-' + Date.now();
+
+        const customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
+        customBoxes.push({ tabId: tabId, boxId: boxId, title: boxTitle });
+        localStorage.setItem('myBoxes', JSON.stringify(customBoxes));
+
+        renderCustomBox(tabId, boxId, boxTitle);
+        displayBoxOpenTimes(); 
+        alert("박스가 추가되었습니다!");
+    }
+
+    // 커스텀 박스를 화면에 그리는 함수
+    function renderCustomBox(tabId, boxId, boxTitle) {
+        const targetTabGrid = document.querySelector(`#${tabId} .news-grid`);
+        if (!targetTabGrid) return;
+
+        const boxHTML = `
+            <article class="news-card" id="card-${boxId}">
+                <div class="card-header">
+                    <div class="press-info">
+                        <span>추가된 박스</span>
+                        <button onclick="editBox('${boxId}')" style="margin-left: 10px; font-size: 11px; padding: 2px 6px; cursor: pointer;">수정</button>
+                        <button onclick="deleteBox('${boxId}')" style="margin-left: 4px; font-size: 11px; padding: 2px 6px; color: red; cursor: pointer;">삭제</button>
+                    </div>
+                    <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+                </div>
+                <h3 class="title" id="title-${boxId}">${boxTitle}</h3>
+                <ul class="sub-article-list" id="${boxId}"></ul>
+            </article>
+        `;
+        targetTabGrid.insertAdjacentHTML('beforeend', boxHTML);
+    }
+
+    // 박스 이름 수정 함수
+    function editBox(boxId) {
+        const newTitle = prompt("변경할 박스 이름을 입력해주세요:");
+        if (!newTitle || newTitle.trim() === "") return; 
+
+        let customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
+        customBoxes = customBoxes.map(box => {
+            if (box.boxId === boxId) box.title = newTitle;
+            return box;
+        });
+        localStorage.setItem('myBoxes', JSON.stringify(customBoxes));
+
+        const titleElement = document.getElementById(`title-${boxId}`);
+        if (titleElement) titleElement.textContent = newTitle;
+        alert("박스 이름이 수정되었습니다!");
+    }
+
+    // 박스 삭제 함수
+    function deleteBox(boxId) {
+        const isConfirm = confirm("정말 이 박스를 삭제하시겠습니까? (안에 있던 노트는 화면에서 사라집니다)");
+        if (!isConfirm) return;
+
+        let customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
+        customBoxes = customBoxes.filter(box => box.boxId !== boxId);
+        localStorage.setItem('myBoxes', JSON.stringify(customBoxes));
+
+        const cardElement = document.getElementById(`card-${boxId}`);
+        if (cardElement) cardElement.remove();
+        alert("박스가 삭제되었습니다.");
+    }
+
+    // 페이지 로드 시 실행 (기존 작성한 노트 불러오기 & 커스텀 박스 & 시간 불러오기)
+    window.onload = function() {
+        // 1. 커스텀 박스 그리기
+        const customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
+        customBoxes.forEach(box => renderCustomBox(box.tabId, box.boxId, box.title));
+
+        // 2. 노트 리스트 불러오기
+        const savedNotes = JSON.parse(localStorage.getItem('myNotes')) || [];
+        if (savedNotes.length > 0) {
+            savedNotes.reverse().forEach(note => {
+                const targetList = document.getElementById(note.category);
+                if (targetList) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="#">[새 노트] ${note.title}</a>`;
+                    targetList.prepend(li);
+                }
+                
+                // "모든 과목 최신 노트 모아보기"에도 추가
+                const allList = document.getElementById('category-all');
+                if (allList) {
+                    const liAll = document.createElement('li');
+                    liAll.innerHTML = `<a href="#">[새 노트] ${note.title}</a>`;
+                    allList.prepend(liAll);
+                }
+            });
+        }
+
+        // 3. 마지막 열람 시간 표시
+        displayBoxOpenTimes();
+    };
 </script>
 </body>
 </html>
