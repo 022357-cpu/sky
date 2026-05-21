@@ -214,7 +214,66 @@
     </nav>
 
     <main class="main-container">
+    <div style="text-align: right; margin-bottom: 20px;">
+        <button onclick="addNewBox()" style="padding: 8px 16px; background-color: #3b5998; color: white; border: none; border-radius: 4px; cursor: pointer;">+ 현재 탭에 새 박스 추가</button>
+    </div>
     
+    ```
+
+**2. `index.html` 스크립트 업데이트 (가장 아래 `<script>` 태그 안)**
+새로운 박스를 만들고 불러오는 기능입니다. 기존 스크립트 맨 아래에 다음 코드를 추가하세요.
+
+```javascript
+// 새 박스를 추가하는 함수
+function addNewBox() {
+    const boxTitle = prompt("새로운 박스(주제)의 이름을 입력하세요:");
+    if (!boxTitle) return;
+
+    // 현재 화면에 켜져 있는 탭 찾기
+    const activeTab = document.querySelector('.tab-content.active');
+    const tabId = activeTab.id;
+
+    // 겹치지 않는 고유 ID 생성 (에디터와 연결하기 위함)
+    const boxId = 'custom-' + Date.now();
+
+    // 로컬스토리지에 새 박스 정보 저장
+    const customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
+    customBoxes.push({ tabId: tabId, boxId: boxId, title: boxTitle });
+    localStorage.setItem('myBoxes', JSON.stringify(customBoxes));
+
+    // 화면에 방금 만든 박스 즉시 그리기
+    renderCustomBox(tabId, boxId, boxTitle);
+    alert("박스가 추가되었습니다!");
+}
+
+// 박스를 화면에 그려주는 함수
+function renderCustomBox(tabId, boxId, boxTitle) {
+    const targetTabGrid = document.querySelector(`#${tabId} .news-grid`);
+    if (!targetTabGrid) return;
+
+    const boxHTML = `
+        <article class="news-card">
+            <div class="card-header">
+                <div class="press-info"><span>추가된 박스</span></div>
+                <a href="editor.html" class="btn-subscribe">+ 새 노트 작성</a>
+            </div>
+            <h3 class="title">${boxTitle}</h3>
+            <ul class="sub-article-list" id="${boxId}"></ul>
+        </article>
+    `;
+    targetTabGrid.insertAdjacentHTML('beforeend', boxHTML);
+}
+
+// 기존 window.onload 코드를 아래처럼 수정해서 저장된 커스텀 박스도 띄우게 만듭니다.
+const originalOnload = window.onload;
+window.onload = function() {
+    // 1. 내가 만든 커스텀 박스들 먼저 화면에 그리기
+    const customBoxes = JSON.parse(localStorage.getItem('myBoxes')) || [];
+    customBoxes.forEach(box => renderCustomBox(box.tabId, box.boxId, box.title));
+
+    // 2. 기존의 노트 렌더링 코드 실행
+    if (originalOnload) originalOnload(); 
+};
     <div id="tab-press" class="tab-content active">
         <div class="news-grid">
             <article class="news-card">
